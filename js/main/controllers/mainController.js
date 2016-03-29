@@ -9,16 +9,16 @@ App.controller('MainCtrl', function ($scope, $http, toaster) {
         $scope.users = response.data;
     });
 
-    $scope.sendData = function (userDetails, isvalid) {
-        if (isvalid) {
+    $scope.sendData = function () {
+        if ($scope.userForm.$valid) {
 
             $http({
                 method: 'POST',
                 url: "http://angular.codeforges.com/",
                 data: {
-                    userName: userDetails.userName,
-                    hash: userDetails.hash,
-                    email: userDetails.email
+                    firstName: $scope.firstName,
+                    lastName: $scope.lastName,
+                    userName: $scope.userName
                 }
             }).then(function (response) {
                 $scope.users.push(response.data.response);
@@ -30,9 +30,9 @@ App.controller('MainCtrl', function ($scope, $http, toaster) {
                     showCloseButton: true
                 });
 
-                userDetails.userName = "";
-                userDetails.hash = "";
-                userDetails.email = "";
+                firstName = "";
+                lastName = "";
+                userName = "";
             });
         }
         else {
