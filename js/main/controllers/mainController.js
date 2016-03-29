@@ -9,24 +9,31 @@ App.controller('MainCtrl', function ($scope, $http, toaster) {
         $scope.users = response.data;
     });
 
-    $scope.addNewPerson = function (userDetails, isvalid) {
+    $scope.sendData = function (userDetails, isvalid) {
         if (isvalid) {
-            $scope.users.push({
-                userName: userDetails.userName,
-                hash: userDetails.hash,
-                email: userDetails.email,
-            });
 
-            toaster.pop({
-                type: 'success',
-                title: "Success",
-                body: "User added!",
-                showCloseButton: true
-            });
+            $http({
+                method: 'POST',
+                url: "http://angular.codeforges.com/",
+                data: {
+                    userName: userDetails.userName,
+                    hash: userDetails.hash,
+                    email: userDetails.email
+                }
+            }).then(function (response) {
+                $scope.users.push(response.data.response);
 
-            userDetails.userName = "";
-            userDetails.hash = "";
-            userDetails.email = "";
+                toaster.pop({
+                    type: 'success',
+                    title: "Success",
+                    body: "User added!",
+                    showCloseButton: true
+                });
+
+                userDetails.userName = "";
+                userDetails.hash = "";
+                userDetails.email = "";
+            });
         }
         else {
             toaster.pop({
@@ -36,7 +43,7 @@ App.controller('MainCtrl', function ($scope, $http, toaster) {
                 showCloseButton: true
             });
         }
-    }
+    };
 
     $scope.removeUser = function (index) {
         $scope.users.splice(index, 1);
