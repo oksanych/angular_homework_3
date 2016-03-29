@@ -30,9 +30,9 @@ App.controller('MainCtrl', function ($scope, $http, toaster) {
                     showCloseButton: true
                 });
 
-                firstName = "";
-                lastName = "";
-                userName = "";
+                $scope.firstName = "";
+                $scope.lastName = "";
+                $scope.userName = "";
             });
         }
         else {
